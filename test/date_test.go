@@ -1,7 +1,7 @@
 package test
 
 import (
-	"CloudStorage/models"
+	"CloudStorage/core/models"
 	"bytes"
 	"encoding/json"
 	"fmt"

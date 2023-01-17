@@ -1,24 +1,23 @@
 package handler
 
 import (
-	"net/http"
-
 	"CloudStorage/core/internal/logic"
 	"CloudStorage/core/internal/svc"
 	"CloudStorage/core/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"net/http"
 )
 
-func CoreHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Request
+		var req types.LoginRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewCoreLogic(r.Context(), svcCtx)
-		resp, err := l.Core(&req)
+		l := logic.NewUserLogic(r.Context(), svcCtx)
+		resp, err := l.User(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
