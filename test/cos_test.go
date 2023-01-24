@@ -2,8 +2,10 @@ package test
 
 import (
 	"CloudStorage/core/define"
+	"CloudStorage/core/helper"
 	"bytes"
 	"context"
+	"fmt"
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"net/http"
 	"net/url"
@@ -52,4 +54,9 @@ func TestFileReader(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func TestPassword(t *testing.T) {
+	s := "123456"
+	fmt.Println(helper.Md5(s))
 }

@@ -45,7 +45,7 @@ func AnalyzeToken(token string) (*define.UserClaim, error) {
 	if err != nil {
 		return nil, err
 	}
-	if claims.Valid {
+	if !claims.Valid {
 		return uc, errors.New("Invalid Token")
 	}
 	return uc, err
