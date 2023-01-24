@@ -18,3 +18,33 @@ type UserDetailResponse struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
+
+type MailVerificationCodeRequest struct {
+	Email string `json:"email"`
+}
+
+type MailVerificationCodeResponse struct {
+	Code string `json:"code"`
+}
+
+type UserRegisterRequest struct {
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+	Code     string `json:"code"`
+}
+
+type UserRegisterResponse struct {
+}
+
+type FileUploadRequest struct {
+	Hash string `json:"hash, optional"`
+	Name string `json:"name, optional"`
+	Ext  string `json:"ext, optional"`
+	Size int64  `json:"size, optional"`
+	Path string `json:"path, optional"`
+}
+
+type FileUploadResponse struct {
+	Identity string `json:"identity"`
+}

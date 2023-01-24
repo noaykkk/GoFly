@@ -22,6 +22,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/detail",
 				Handler: UserDetailHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/mail/code/send",
+				Handler: MailRegisterHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/register",
+				Handler: UserRegisterHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/file/upload",
+				Handler: FileUploadHandler(serverCtx),
+			},
 		},
 	)
 }

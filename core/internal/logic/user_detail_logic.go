@@ -29,7 +29,7 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailRequest) (resp *types.
 	// todo: add your logic here and delete this line
 	resp = &types.UserDetailResponse{}
 	ub := new(models.UserBasic)
-	isQuery, err := models.Engine.Where("identity=?", req.Identity).Get(ub)
+	isQuery, err := l.svcCtx.Engine.Where("identity=?", req.Identity).Get(ub)
 	if err != nil {
 		return nil, err
 	}

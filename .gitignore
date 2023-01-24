@@ -19,3 +19,5 @@
 
 # Go workspace file
 go.work
+core/define/config.go
+core/etc/core-api.yaml

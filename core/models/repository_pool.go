@@ -2,17 +2,19 @@ package models
 
 import "time"
 
-type UserBasic struct {
+type RepositoryPool struct {
 	Id        int
 	Identity  string
+	Hash      string
 	Name      string
-	Password  string
-	Email     string
+	Ext       string
+	Size      int64
+	Path      string
 	CreatedAt time.Time `xorm:"created"`
 	UpdatedAt time.Time `xorm:"updated"`
 	DeletedAt time.Time `xorm:"deleted"`
 }
 
-func (table UserBasic) TableName() string {
-	return "user_basic"
+func (table RepositoryPool) TableName() string {
+	return "repository_pool"
 }

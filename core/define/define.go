@@ -9,4 +9,4 @@ type UserClaim struct {
 	jwt.RegisteredClaims
 }
 
-var JwtKey = "CloudStorage-Key"
+var CodeExpire = 600

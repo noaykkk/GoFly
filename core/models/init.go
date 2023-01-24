@@ -1,18 +1,26 @@
 package models
 
 import (
+	"CloudStorage/core/internal/config"
+	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"xorm.io/xorm"
 )
 
-var Engine = Init()
-
-func Init() *xorm.Engine {
-	engine, err := xorm.NewEngine("mysql", "root:123456@tcp(localhost:3306)/cloudstorage?charset=utf8&parseTime=True&loc=Local")
+func Init(dataSource string) *xorm.Engine {
+	engine, err := xorm.NewEngine("mysql", dataSource)
 	if err != nil {
 		log.Printf("New Engine Error:%v", err)
 		return nil
 	}
 	return engine
+}
+
+func InitRedis(c config.Config) *redis.Client {
+	return redis.NewClient(&redis.Options{
+		Addr:     c.Redis.Addr,
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
 }

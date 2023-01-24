@@ -2,9 +2,20 @@ package helper
 
 import (
 	"CloudStorage/core/define"
+	"context"
 	"crypto/md5"
+	"crypto/tls"
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/jordan-wright/email"
+	uuid "github.com/satori/go.uuid"
+	"github.com/tencentyun/cos-go-sdk-v5"
+	"math/rand"
+	"net/http"
+	"net/smtp"
+	"net/url"
+	"path"
+	"time"
 )
 
 func Md5(s string) string {
@@ -23,4 +34,53 @@ func GenerateToken(id int, identity, name string) (string, error) {
 		return "", err
 	}
 	return tokenString, nil
+}
+
+func MailSend(address, code string) error {
+	e := email.NewEmail()
+	e.From = define.EmailFrom
+	e.To = []string{address}
+	e.Subject = "Verification Code"
+	e.HTML = []byte("Your Verification Code is below<h1>" + code + "</h1>")
+	err := e.SendWithTLS("smtp.163.com:465", smtp.PlainAuth("1", define.EmailAccount, define.EmailPassword, "smtp.163.com"),
+		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.163.com"})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func RadomCode() {
+	s := "1234567890"
+	code := ""
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < define.CodeLength; i++ {
+		code += string(s[rand.Intn(len(s))])
+	}
+}
+
+func GenerateUUID() string {
+	return uuid.NewV4().String()
+}
+
+func CosUpload(r *http.Request) (string, error) {
+	u, _ := url.Parse(define.BucketPath)
+	b := &cos.BaseURL{BucketURL: u}
+	client := cos.NewClient(b, &http.Client{
+		Transport: &cos.AuthorizationTransport{
+			SecretID:  define.SecretId,
+			SecretKey: define.SecretKey,
+		},
+	})
+
+	file, fileHeader, err := r.FormFile("file")
+	key := GenerateUUID() + path.Ext(fileHeader.Filename)
+
+	_, err = client.Object.Put(
+		context.Background(), key, file, nil,
+	)
+	if err != nil {
+		panic(err)
+	}
+	return define.BucketPath + "/" + key, nil
 }
