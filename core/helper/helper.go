@@ -9,6 +9,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/jordan-wright/email"
 	uuid "github.com/satori/go.uuid"
+	"github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"math/rand"
 	"net/http"
@@ -34,6 +35,20 @@ func GenerateToken(id int, identity, name string) (string, error) {
 		return "", err
 	}
 	return tokenString, nil
+}
+
+func AnalyzeToken(token string) (*define.UserClaim, error) {
+	uc := new(define.UserClaim)
+	claims, err := jwt.ParseWithClaims(token, uc, func(token *jwt.Token) (interface{}, error) {
+		return []byte(define.JwtKey), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if claims.Valid {
+		return uc, errors.New("Invalid Token")
+	}
+	return uc, err
 }
 
 func MailSend(address, code string) error {

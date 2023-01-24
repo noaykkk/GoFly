@@ -36,10 +36,11 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		rp := new(models.RepositoryPool)
 		get, err := svcCtx.Engine.Where("hash = ?", hash).Get(rp)
 		if err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 		if get {
-			httpx.OkJson(w, &types.FileUploadResponse{Identity: rp.Identity})
+			httpx.OkJson(w, &types.FileUploadResponse{Identity: rp.Identity, Ext: rp.Ext, Name: rp.Name})
 			return
 		}
 		// Upload file to COS
