@@ -10,3 +10,7 @@ type UserClaim struct {
 }
 
 var CodeExpire = 600
+
+var PageSize = 20
+
+var Datetime = "2006-01-02 15:04:05"

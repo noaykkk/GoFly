@@ -22,6 +22,11 @@ service core-api {
 	@handler UserRepositorySave
 	post /user/repository/save (UserRepositorySaveRequest) returns (UserRepositorySaveResponse)
 	
+	@handler UserFileList
+	post /user/file/list(UserFileListRequest) returns (UserFileListResponse)
+
+	@handler UserFileRename
+	post /user/file/name/update(UserFileRenameRequest) returns (UserFileRenameResponse)
 }
 
 type LoginRequest {
@@ -84,3 +89,31 @@ type UserRepositorySaveRequest {
 type UserRepositorySaveResponse {
 	Identity string `json:"identity"`
 }
+
+type UserFileListRequest {
+	Identity string `json:"identity,optional"`
+	Page     int    `json:"page,optional"`
+	Size     int    `json:"size,optional"`
+}
+
+type UserFileListResponse {
+	List  []*UserFile `json:"list"`
+	Count int64       `json:"count"`
+}
+
+type UserFile {
+	Id                 int64  `json:"id"`
+	Identity           string `json:"identity"`
+	RepositoryIdentity string `json:"repository_identity"`
+	Name               string `json:"name"`
+	Ext                string `json:"ext"`
+	Path               string `json:"path"`
+	Size               int64  `json:"size"`
+}
+
+type UserFileRenameRequest {
+	Identity string `json:"identity"`
+	Name     string `json:"name"`
+}
+
+type UserFileRenameResponse {}
