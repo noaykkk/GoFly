@@ -33,6 +33,12 @@ service core-api {
 	
 	@handler UserFileDelete
 	delete /user/file/delete(UserFileDeleteRequest) returns (UserFileDeleteResponse)
+	
+	@handler UserFileMove
+	put /user/file/move(UserFileMoveRequest) returns (UserFileMoveResponse)
+	
+	@handler UserFileShare
+	post /share/basic/create(UserFileShareRequest) returns (UserFileShareResponse)
 }
 
 type LoginRequest {
@@ -138,3 +144,19 @@ type UserFileDeleteRequest {
 }
 
 type UserFileDeleteResponse {}
+
+type UserFileMoveRequest {
+	Idnetity       string `json:"identity"`
+	ParentIdnetity string `json:"parent_identity"`
+}
+
+type UserFileMoveResponse {}
+
+type UserFileShareRequest {
+	UserRepositoryIdentity string `json:"user_repository_identity"`
+	ExpiredTime            int    `json:"expired_time"`
+}
+
+type UserFileShareResponse {
+	Identity string `json:"identity"`
+}

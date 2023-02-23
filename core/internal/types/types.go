@@ -106,3 +106,20 @@ type UserFileDeleteRequest struct {
 
 type UserFileDeleteResponse struct {
 }
+
+type UserFileMoveRequest struct {
+	Idnetity       string `json:"identity"`
+	ParentIdnetity string `json:"parent_identity"`
+}
+
+type UserFileMoveResponse struct {
+}
+
+type UserFileShareRequest struct {
+	UserRepositoryIdentity string `json:"user_repository_identity"`
+	ExpiredTime            int    `json:"expired_time"`
+}
+
+type UserFileShareResponse struct {
+	Identity string `json:"identity"`
+}
