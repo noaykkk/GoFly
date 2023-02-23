@@ -32,6 +32,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/register",
 				Handler: UserRegisterHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/share/basic/detail",
+				Handler: ShareBasicDetailHandler(serverCtx),
+			},
 		},
 	)
 
@@ -78,6 +83,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/share/basic/create",
 					Handler: UserFileShareHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/share/basic/save",
+					Handler: ShareBasicSaveHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/refresh/authorization",
+					Handler: RefreshAuthorizationHandler(serverCtx),
 				},
 			}...,
 		),

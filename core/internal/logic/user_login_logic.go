@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"CloudStorage/core/define"
 	"CloudStorage/core/helper"
 	"CloudStorage/core/models"
 	"context"
@@ -27,7 +28,6 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 }
 
 func (l *UserLoginLogic) UserLogin(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
-	// todo: add your logic here and delete this line
 	user := new(models.UserBasic)
 	isQuery, err := l.svcCtx.Engine.Where("name = ? AND password = ?", req.Name, helper.Md5(req.Password)).Get(user)
 	if err != nil {
@@ -36,11 +36,16 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginRequest) (resp *types.LoginRe
 	if !isQuery {
 		return nil, errors.New("Wrong username or password")
 	}
-	token, err := helper.GenerateToken(user.Id, user.Identity, user.Name)
+	token, err := helper.GenerateToken(user.Id, user.Identity, user.Name, define.TokenExpire)
+	if err != nil {
+		return nil, err
+	}
+	refreshToken, err := helper.GenerateToken(user.Id, user.Identity, user.Name, define.RefreshTokenExpire)
 	if err != nil {
 		return nil, err
 	}
 	resp = new(types.LoginResponse)
 	resp.Token = token
+	resp.RefreshToken = refreshToken
 	return
 }

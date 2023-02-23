@@ -7,7 +7,8 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token string `json:"token"`
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
 type UserDetailRequest struct {
@@ -122,4 +123,33 @@ type UserFileShareRequest struct {
 
 type UserFileShareResponse struct {
 	Identity string `json:"identity"`
+}
+
+type ShareBasicDetailRequest struct {
+	Identity string `json:"identity,optional"`
+}
+
+type ShareBasicDetailResponse struct {
+	RepositoryIdentity string `json:"repository_identity"`
+	Name               string `json:"name"`
+	Ext                string `json:"ext"`
+	Size               int64  `json:"size"`
+	Path               string `json:"path"`
+}
+
+type ShareBasicSaveRequest struct {
+	RepositoryIdentity string `json:"repository_identity"`
+	ParentId           int64  `json:"parent_id"`
+}
+
+type ShareBasicSaveResponse struct {
+	Identity string `json:"identity"`
+}
+
+type RefreshAuthorizationRequest struct {
+}
+
+type RefreshAuthorizationResponse struct {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
 }

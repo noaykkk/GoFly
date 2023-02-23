@@ -10,6 +10,9 @@ service core-api {
 	
 	@handler UserRegister
 	post /user/register (UserRegisterRequest) returns (UserRegisterResponse)
+	
+	@handler ShareBasicDetail
+	get /share/basic/detail(ShareBasicDetailRequest) returns (ShareBasicDetailResponse)
 }
 
 @server (
@@ -39,6 +42,12 @@ service core-api {
 	
 	@handler UserFileShare
 	post /share/basic/create(UserFileShareRequest) returns (UserFileShareResponse)
+	
+	@handler ShareBasicSave
+	post /share/basic/save(ShareBasicSaveRequest) returns (ShareBasicSaveResponse)
+	
+	@handler RefreshAuthorization
+	post /refresh/authorization(RefreshAuthorizationRequest) returns (RefreshAuthorizationResponse)
 }
 
 type LoginRequest {
@@ -47,7 +56,8 @@ type LoginRequest {
 }
 
 type LoginResponse {
-	Token string `json:"token"`
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
 type UserDetailRequest {
@@ -159,4 +169,32 @@ type UserFileShareRequest {
 
 type UserFileShareResponse {
 	Identity string `json:"identity"`
+}
+
+type ShareBasicDetailRequest {
+	Identity string `json:"identity,optional"`
+}
+
+type ShareBasicDetailResponse {
+	RepositoryIdentity string `json:"repository_identity"`
+	Name               string `json:"name"`
+	Ext                string `json:"ext"`
+	Size               int64  `json:"size"`
+	Path               string `json:"path"`
+}
+
+type ShareBasicSaveRequest {
+	RepositoryIdentity string `json:"repository_identity"`
+	ParentId           int64  `json:"parent_id"`
+}
+
+type ShareBasicSaveResponse {
+	Identity string `json:"identity"`
+}
+
+type RefreshAuthorizationRequest {}
+
+type RefreshAuthorizationResponse {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
 }
