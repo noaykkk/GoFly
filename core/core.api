@@ -24,9 +24,15 @@ service core-api {
 	
 	@handler UserFileList
 	post /user/file/list(UserFileListRequest) returns (UserFileListResponse)
-
+	
 	@handler UserFileRename
 	post /user/file/name/update(UserFileRenameRequest) returns (UserFileRenameResponse)
+	
+	@handler UserFolderCreate
+	post /user/folder/create(UserFolderCreateRequest) returns (UserFolderCreateResponse)
+	
+	@handler UserFileDelete
+	delete /user/file/delete(UserFileDeleteRequest) returns (UserFileDeleteResponse)
 }
 
 type LoginRequest {
@@ -117,3 +123,18 @@ type UserFileRenameRequest {
 }
 
 type UserFileRenameResponse {}
+
+type UserFolderCreateRequest {
+	ParentId int64  `json:"parent_id"`
+	Name     string `json:"name"`
+}
+
+type UserFolderCreateResponse {
+	Identity string `json:"identity"`
+}
+
+type UserFileDeleteRequest {
+	Identity string `json:"identity"`
+}
+
+type UserFileDeleteResponse {}
