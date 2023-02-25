@@ -47,5 +47,6 @@ func (l *UserLoginLogic) UserLogin(req *types.LoginRequest) (resp *types.LoginRe
 	resp = new(types.LoginResponse)
 	resp.Token = token
 	resp.RefreshToken = refreshToken
+	resp.Identity = user.Identity
 	return
 }

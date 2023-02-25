@@ -2,17 +2,18 @@
 package types
 
 type LoginRequest struct {
-	Name     string `json:"name"`
+	Name     string `json:"userName"`
 	Password string `json:"password"`
 }
 
 type LoginResponse struct {
 	Token        string `json:"token"`
 	RefreshToken string `json:"refresh_token"`
+	Identity     string `json:"identity"`
 }
 
 type UserDetailRequest struct {
-	Identity string `json:"identity"`
+	Identity string `json:"userIdentity"`
 }
 
 type UserDetailResponse struct {
@@ -64,9 +65,9 @@ type UserRepositorySaveResponse struct {
 }
 
 type UserFileListRequest struct {
-	Identity string `json:"identity,optional"`
-	Page     int    `json:"page,optional"`
-	Size     int    `json:"size,optional"`
+	Id   int `json:"id,optional"`
+	Page int `json:"page,optional"`
+	Size int `json:"size,optional"`
 }
 
 type UserFileListResponse struct {
