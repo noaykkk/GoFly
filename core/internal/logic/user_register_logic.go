@@ -4,6 +4,7 @@ import (
 	"CloudStorage/core/helper"
 	"CloudStorage/core/models"
 	"context"
+	"fmt"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"log"
 
@@ -33,6 +34,8 @@ func (l *UserRegisterLogic) UserRegister(req *types.UserRegisterRequest) (resp *
 	if err != nil {
 		return nil, errors.New("Empty Verification Code")
 	}
+	fmt.Print(code)
+	fmt.Print(req.Code)
 	if code != req.Code {
 		err = errors.New("Wrong Verification Code")
 	}

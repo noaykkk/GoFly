@@ -30,7 +30,7 @@ type MailVerificationCodeResponse struct {
 }
 
 type UserRegisterRequest struct {
-	Name     string `json:"name"`
+	Name     string `json:"userName"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
 	Code     string `json:"code"`

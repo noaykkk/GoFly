@@ -1,12 +1,11 @@
 package handler
 
 import (
-	"net/http"
-
 	"CloudStorage/core/internal/logic"
 	"CloudStorage/core/internal/svc"
 	"CloudStorage/core/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"net/http"
 )
 
 func UserFileDeleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
@@ -16,7 +15,6 @@ func UserFileDeleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
-
 		l := logic.NewUserFileDeleteLogic(r.Context(), svcCtx)
 		resp, err := l.UserFileDelete(&req, r.Header.Get("UserIdentity"))
 		if err != nil {

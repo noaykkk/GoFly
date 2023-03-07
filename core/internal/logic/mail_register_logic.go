@@ -38,9 +38,13 @@ func (l *MailRegisterLogic) MailRegister(req *types.MailVerificationCodeRequest)
 		err = errors.New("This e-mail address has been already registered")
 		return
 	}
-	code := helper.RadomCode
+	//codeTTL, _ := l.svcCtx.RDB.TTL(l.ctx, req.Email).Result()
+	//if codeTTL.Seconds() > 0 || codeTTL.Seconds() == -1 {
+	//	return nil, errors.New("the verify code has not expired")
+	//}
+	code := helper.RandCode()
 	l.svcCtx.RDB.Set(l.ctx, req.Email, code, time.Second*time.Duration(define.CodeExpire))
-	err = helper.MailSend(req.Email, "123456")
+	err = helper.MailSend(req.Email, code)
 	if err != nil {
 		return nil, err
 	}
